@@ -31,45 +31,52 @@ function displayData(data) {
     result.innerHTML = `
     <ul class="songs">
       ${data.data
-        .map(song=> `<li>
+            .map(song => `<li>
                     <div>
                         <strong>${song.artist.name}</strong> - ${song.title} 
                     </div>
                     <span data-artist="${song.artist.name}" data-songtitle="${song.title}">Get Lyrics</span>
                 </li>`
-        )
-        .join('')}
+            )
+            .join('')}
     </ul>
   `;
 }
 
 //event listener in get lyrics button
-result.addEventListener('click', e=>{
+result.addEventListener('click', e => {
     const clickedElement = e.target;
 
     //checking clicked elemet is button or not
-    if (clickedElement.tagName === 'SPAN'){
+    if (clickedElement.tagName === 'SPAN') {
         const artist = clickedElement.getAttribute('data-artist');
         const songTitle = clickedElement.getAttribute('data-songtitle');
-        
+
         getLyrics(artist, songTitle)
     }
 })
 
 // Get lyrics for song
 async function getLyrics(artist, songTitle) {
-    const response = await fetch(`${apiURL}/v1/${artist}/${songTitle}`);
-    const data = await response.json();
-  
-    const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
-  
-    result.innerHTML = `<h2><strong>${artist}</strong> - ${songTitle}</h2>
+
+    try {
+        const response = await fetch(`${apiURL}/v1/${artist}/${songTitle}`);
+        const data = await response.json();
+
+        const lyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, '<br>');
+
+        result.innerHTML = `<h2><strong>${artist}</strong> - ${songTitle}</h2>
     <p class="lyrics">${lyrics}</p>`;
+    }
+    catch{
+        result.innerHTML = "Sorry! Lyrics Not Found.";
+    }
+   
   
   }
 
   //functioning of back button
 //   back.addEventListener('click', e=>{
 
-    
+
 //   })
