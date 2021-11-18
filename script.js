@@ -69,7 +69,7 @@ async function getLyrics(artist, songTitle) {
     <p class="lyrics">${lyrics}</p>`;
     }
     catch{
-        result.innerHTML = "Sorry! Lyrics Not Found.";
+        result.innerHTML = "Sorry! <br>Lyrics You Are Searching For Is Not Found.</br>";
     }
    
   
